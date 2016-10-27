@@ -22,6 +22,10 @@ public class Principal {
 				}
 			}
 		});
+		
+		
+		ControlJuego tablero = new ControlJuego();
+				tablero.inicializarPartida();
 	}
 
 }

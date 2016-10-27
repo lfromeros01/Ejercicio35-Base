@@ -36,8 +36,35 @@ public class ControlJuego {
 	 */
 	public void inicializarPartida(){
 		//Borro del tablero la información que pudiera haber anteriormente (los pongo todos a cero):
-
+		
+		for(int i=0;i<tablero.length;i++)
+		{
+			for(int j=0;j<tablero.length;j++)
+			{
+				tablero[i][j]=0;
+			}	
+		}	
 		//Me creo LADO_TABLERO*LADO_TABLERO números en un array list, uno para cada una de las posiciones del tablero:
+		ArrayList<Integer> pos= new ArrayList<>();
+		for(int i=0;i<(LADO_TABLERO*LADO_TABLERO);i++)
+		{
+			pos.add(i);
+		}	
+		int cont=0;
+		int posx;
+		int posy;
+		int posmina;
+		Random rd = new Random();
+		while(cont<20)
+		{
+			posmina=rd.nextInt(pos.size());
+			posx=(posmina)/10;
+			posy=posmina%10;
+			tablero[posx][posy]=-1;
+			pos.remove(posmina);
+			cont++;
+		}
+		depurarTablero();
 
 		//Saco 20 posiciones sin repetir del array y les coloco una mina en el tablero:
 
