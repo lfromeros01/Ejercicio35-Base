@@ -57,7 +57,7 @@ public class ControlJuego {
 	 * @return : El número de minas que hay alrededor de la casilla [i][j]
 	 */
 	private int calculoMinasAdjuntas(int i, int j){
-
+		return 0;
 	}
 	
 	/**
