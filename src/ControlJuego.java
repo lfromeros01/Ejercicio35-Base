@@ -7,7 +7,7 @@ import java.util.Random;
  * Si hay una mina en una posición guarda el número -1
  * Si no hay una mina, se guarda cuántas minas hay alrededor.
  * Almacena la puntuación de la partida
- * @author jesusredondogarcia
+ * @author Luis Fernando Romero
  *
  */
 public class ControlJuego {
@@ -45,33 +45,50 @@ public class ControlJuego {
 			}	
 		}	
 		//Me creo LADO_TABLERO*LADO_TABLERO números en un array list, uno para cada una de las posiciones del tablero:
+		
 		ArrayList<Integer> pos= new ArrayList<>();
-		for(int i=0;i<(LADO_TABLERO*LADO_TABLERO);i++)
+		for(int k=0;k<(LADO_TABLERO*LADO_TABLERO);k++)
 		{
-			pos.add(i);
-		}	
+			pos.add(k);//se guardan las posiciones en una lista para sacar posteriormente posiciones aleatorias
+		}
+		
+		
+		//Saco 20 posiciones sin repetir del array y les coloco una mina en el tablero:
 		int cont=0;
 		int posx;
 		int posy;
 		int posmina;
-		Random rd = new Random();
-		while(cont<20)
+		int valormina;
+		Random rd = new Random();	
+		while(cont<MINAS_INICIALES)
 		{
+			
 			posmina=rd.nextInt(pos.size());
-			posx=(posmina)/10;
-			posy=posmina%10;
-			tablero[posx][posy]=-1;
+			valormina=pos.get(posmina);
+			posx=(valormina)/10;
+			posy=(valormina)%10;
+			tablero[posx][posy]=MINA;
 			pos.remove(posmina);
 			cont++;
 		}
-		depurarTablero();
-
-		//Saco 20 posiciones sin repetir del array y les coloco una mina en el tablero:
-
 		//Calculo para todas las posiciones que no tienen minas, cuántas minas hay alrededor.
 		
+		for (int i = 0; i < tablero.length; i++) 
+		{
+			for (int j = 0; j < tablero[i].length; j++)
+			{
+				
+				if(tablero[i][j]!=MINA)
+				{		
+					calculoMinasAdjuntas(i, j);			
+				}
+				
+			}
+			
+		}
+		
 		//Pongo la puntuación a cero:
-
+		puntuacion=0;
 		
 	}
 	
@@ -83,8 +100,25 @@ public class ControlJuego {
 	 * @param j: posición horizontalmente de la casilla a rellenar
 	 * @return : El número de minas que hay alrededor de la casilla [i][j]
 	 */
-	private int calculoMinasAdjuntas(int i, int j){
-		return 0;
+	private void calculoMinasAdjuntas(int i, int j){
+				
+		for(int k=(i-1);k<=(i+1);k++)
+		{
+			for(int l=(j-1);l<=(j+1);l++)
+			{
+				
+				if(k>=0 && l>=0 && k<LADO_TABLERO && l<LADO_TABLERO)
+				{
+					if(tablero[k][l]==MINA)
+					{
+						tablero[i][j]++;
+					}	
+				}	
+				
+				
+			}	
+		}		
+				
 	}
 	
 	/**
@@ -112,14 +146,20 @@ public class ControlJuego {
 	 * Método que pinta por pantalla toda la información del tablero, se utiliza para depurar
 	 */
 	public void depurarTablero(){
+		int cont=0;
 		System.out.println("---------TABLERO--------------");
 		for (int i = 0; i < tablero.length; i++) {
 			for (int j = 0; j < tablero[i].length; j++) {
 				System.out.print(tablero[i][j]+"\t");
+				if(tablero[i][j]==-1)
+				{
+					cont++;
+				}	
 			}
 			System.out.println();
 		}
 		System.out.println("\nPuntuación: "+puntuacion);
+		System.out.println("\nMINAS: "+cont);
 	}
 
 	/**
