@@ -13,9 +13,10 @@ public class ActionBoton implements ActionListener{
 
 	ControlJuego juego;
 	VentanaPrincipal ventana;
+	
 
 	public ActionBoton() {
-		//TODO
+		
 	}
 	
 	/**

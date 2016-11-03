@@ -156,7 +156,15 @@ public class VentanaPrincipal {
 	 * @param j: posición horizontal de la celda.
 	 */
 	public void mostrarNumMinasAlrededor(int i , int j) {
-		panelesJuego[i][j].remove(botonesJuego[i][j]);
+		panelesJuego[i][j].removeAll();
+		JLabel etiqueta = new JLabel();
+		int numminas=juego.getMinasAlrededor(i, j);
+		String texto=""+numminas;
+		etiqueta.setText(texto);
+		etiqueta.setForeground(correspondenciaColores[numminas]);
+		etiqueta.setHorizontalAlignment(SwingConstants.CENTER);
+		panelesJuego[i][j].add(etiqueta);
+		refrescarPantalla();
 	}
 	
 	
@@ -166,14 +174,31 @@ public class VentanaPrincipal {
 	 * @post : Todos los botones se desactivan excepto el de volver a iniciar el juego.
 	 */
 	public void mostrarFinJuego(boolean porExplosion) {
-		//TODO
+		if(porExplosion==true)
+		{
+			JOptionPane.showMessageDialog(null,"Ha explotado una Mina","FIN DE JUEGO", JOptionPane.ERROR_MESSAGE);
+		}	
+		else
+		{
+			JOptionPane.showMessageDialog(null,"Has abierto todas las casillas","FIN DE JUEGO", JOptionPane.PLAIN_MESSAGE);
+		}	
+		
+		for (int i = 0; i < botonesJuego.length; i++) 
+		{
+			for (int j = 0; j < botonesJuego[i].length; j++)
+			{
+				botonesJuego[i][j].setEnabled(false);
+				
+			}
+		}
 	}
 
 	/**
 	 * Método que muestra la puntuación por pantalla.
 	 */
 	public void actualizarPuntuacion() {
-		//TODO
+		
+		pantallaPuntuacion.setText(""+juego.getPuntuacion());
 	}
 	
 	/**
