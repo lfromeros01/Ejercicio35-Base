@@ -156,7 +156,7 @@ public class VentanaPrincipal {
 	 * @param j: posición horizontal de la celda.
 	 */
 	public void mostrarNumMinasAlrededor(int i , int j) {
-		//TODO
+		panelesJuego[i][j].remove(botonesJuego[i][j]);
 	}
 	
 	
