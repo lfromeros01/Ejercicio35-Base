@@ -13,10 +13,14 @@ public class ActionBoton implements ActionListener{
 
 	ControlJuego juego;
 	VentanaPrincipal ventana;
-	
+	int i;
+	int j;
 
-	public ActionBoton() {
-		
+	public ActionBoton(int i,int j,ControlJuego juego,VentanaPrincipal ventana) {
+		this.i=i;
+		this.j=j;
+		this.juego=juego;
+		this.ventana=ventana;
 	}
 	
 	/**
@@ -24,7 +28,22 @@ public class ActionBoton implements ActionListener{
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		//TODO
+		
+		if(juego.abrirCasilla(i, j)==true)
+		{
+			ventana.mostrarNumMinasAlrededor(i, j);
+			ventana.actualizarPuntuacion();
+			if(juego.esFinJuego())
+			{
+				ventana.mostrarFinJuego(false);
+			}	
+		}	
+		else
+		{
+			
+			ventana.mostrarFinJuego(true);
+				
+		}	
 	}
 
 }

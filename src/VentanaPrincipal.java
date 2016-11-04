@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -139,7 +140,32 @@ public class VentanaPrincipal {
 	 * Método que inicializa todos los lísteners que necesita inicialmente el programa
 	 */
 	public void inicializarListeners(){
-		//TODO
+		
+		botonEmpezar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				for (int i = 0; i < botonesJuego.length; i++) 
+				{
+					for (int j = 0; j < botonesJuego.length; j++)
+					{
+						botonesJuego[i][j].setEnabled(true);
+						panelesJuego[i][j].removeAll();
+						panelesJuego[i][j].add(botonesJuego[i][j]);
+						refrescarPantalla();
+						actualizarPuntuacion();
+						juego.inicializarPartida();
+						
+					}
+				}		
+			}
+		});
+		
+		for (int i = 0; i < botonesJuego.length; i++) {
+			for (int j = 0; j < botonesJuego[i].length; j++) {
+				 botonesJuego[i][j].addActionListener(new ActionBoton(i,j,juego,this));
+			}
+		}
 	}
 	
 	
@@ -176,11 +202,11 @@ public class VentanaPrincipal {
 	public void mostrarFinJuego(boolean porExplosion) {
 		if(porExplosion==true)
 		{
-			JOptionPane.showMessageDialog(null,"Ha explotado una Mina","FIN DE JUEGO", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(ventana,"Ha explotado una Mina","FIN DE JUEGO", JOptionPane.ERROR_MESSAGE);
 		}	
 		else
 		{
-			JOptionPane.showMessageDialog(null,"Has abierto todas las casillas","FIN DE JUEGO", JOptionPane.PLAIN_MESSAGE);
+			JOptionPane.showMessageDialog(ventana,"Has abierto todas las casillas","FIN DE JUEGO", JOptionPane.PLAIN_MESSAGE);
 		}	
 		
 		for (int i = 0; i < botonesJuego.length; i++) 

@@ -149,7 +149,7 @@ public class ControlJuego {
 	 * @return Devuelve verdadero si se han abierto todas las celdas que no son minas.
 	 **/
 	public boolean esFinJuego(){
-		if(puntuacion==LADO_TABLERO*LADO_TABLERO-MINA)
+		if(puntuacion==(LADO_TABLERO*LADO_TABLERO)-MINAS_INICIALES)
 		{
 			return true;
 		}	
