@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -34,7 +35,6 @@ public class VentanaPrincipal {
 	
 	JButton botonEmpezar;
 	JTextField pantallaPuntuacion;
-	
 	
 	//LA VENTANA GUARDA UN CONTROL DE JUEGO:
 	ControlJuego juego;
@@ -151,6 +151,7 @@ public class VentanaPrincipal {
 					{
 						botonesJuego[i][j].setEnabled(true);
 						panelesJuego[i][j].removeAll();
+						panelesJuego[i][j].setBorder(BorderFactory.createEmptyBorder());
 						panelesJuego[i][j].add(botonesJuego[i][j]);
 						refrescarPantalla();
 						actualizarPuntuacion();
@@ -182,18 +183,67 @@ public class VentanaPrincipal {
 	 * @param j: posición horizontal de la celda.
 	 */
 	public void mostrarNumMinasAlrededor(int i , int j) {
+		
+		int numminas=juego.getMinasAlrededor(i, j);
+		
+		if(numminas==0)
+		{
+			mostrarvacias(i,j);
+		}	
+		else
+		{
+			panelesJuego[i][j].removeAll();
+			JLabel etiqueta = new JLabel();
+			String texto=""+numminas;
+			etiqueta.setText(texto);
+			etiqueta.setForeground(correspondenciaColores[numminas]);
+			etiqueta.setHorizontalAlignment(SwingConstants.CENTER);
+			panelesJuego[i][j].add(etiqueta);
+			refrescarPantalla();
+		}	
+		
+	}
+	/**
+	 * Metodo que comprueba que cambia a una etiqueta vacia si hay 0 minas
+	 * busca en las casillas de alrededor y si las minas son 0 
+	 * vuelve a comprobar si hay 0 minas para mostrar una etiqueta vacia
+	 */
+	
+	public void mostrarvacias(int i, int j)
+	{
+		
 		panelesJuego[i][j].removeAll();
 		JLabel etiqueta = new JLabel();
-		int numminas=juego.getMinasAlrededor(i, j);
-		String texto=""+numminas;
+		String texto="";
+		actualizarPuntuacion();
 		etiqueta.setText(texto);
-		etiqueta.setForeground(correspondenciaColores[numminas]);
-		etiqueta.setHorizontalAlignment(SwingConstants.CENTER);
 		panelesJuego[i][j].add(etiqueta);
+		juego.modificaMinasAlrededor(i, j);
 		refrescarPantalla();
+		for(int k=(i-1);k<=(i+1);k++)
+		{
+			for(int l=(j-1);l<=(j+1);l++)
+			{
+				if(k>=0 && l>=0 && k<juego.LADO_TABLERO && l<juego.LADO_TABLERO)
+				{
+					if(juego.getMinasAlrededor(k, l)==0)
+					{
+						int puntos=juego.getPuntuacion();
+						puntos++;
+						juego.setPuntuacion(puntos);
+						actualizarPuntuacion();
+						mostrarvacias(k,l);
+						
+					}	
+					
+				}	
+				
+				
+			}	
+		}	
+		
 	}
-	
-	
+
 	/**
 	 * Método que muestra una ventana que muestra el fin del juego
 	 * @param porExplosion : Un booleano que indica si es final del juego porque ha explotado una mina (true) o bien porque hemos desactivado todas (false) 
@@ -213,8 +263,21 @@ public class VentanaPrincipal {
 		{
 			for (int j = 0; j < botonesJuego[i].length; j++)
 			{
-				botonesJuego[i][j].setEnabled(false);
-				
+				panelesJuego[i][j].removeAll();
+				panelesJuego[i][j].setBorder(BorderFactory.createLineBorder(Color.black));
+				JLabel etiqueta = new JLabel("");
+				panelesJuego[i][j].add(etiqueta);
+				if(juego.getMinasAlrededor(i, j)==juego.getMina())//Para que cuando exploto una mina me salgan todas en su posicion
+				{
+					etiqueta.setHorizontalAlignment(SwingConstants.CENTER);
+					etiqueta.setForeground(Color.RED);
+					etiqueta.setText("*");
+					Font font = new Font("Dialog", Font.BOLD, 20);
+					etiqueta.setFont(font);
+					
+					
+				}	
+				refrescarPantalla();
 			}
 		}
 	}

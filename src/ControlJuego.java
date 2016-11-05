@@ -15,7 +15,6 @@ public class ControlJuego {
 	private final static int MINA = -1;
 	final int MINAS_INICIALES = 20;
 	final int LADO_TABLERO = 10;
-
 	private int [][] tablero;
 	private int puntuacion;
 	
@@ -86,6 +85,8 @@ public class ControlJuego {
 			}
 			
 		}
+		
+		
 		
 		//Pongo la puntuación a cero:
 		puntuacion=0;
@@ -160,6 +161,18 @@ public class ControlJuego {
 	}
 	
 	
+	
+
+	public static int getMina() {
+		return MINA;
+	}
+
+
+	public void setPuntuacion(int puntuacion) {
+		this.puntuacion = puntuacion;
+	}
+
+
 	/**
 	 * Método que pinta por pantalla toda la información del tablero, se utiliza para depurar
 	 */
@@ -189,6 +202,10 @@ public class ControlJuego {
 	 */
 	public int getMinasAlrededor(int i, int j) {
 		return tablero[i][j];
+	}
+	
+	public void modificaMinasAlrededor(int i, int j) {//Para poder modificar la puntuacion al abrir casillas con 0 minas alrededor
+		tablero[i][j]=-2;
 	}
 
 	/**
